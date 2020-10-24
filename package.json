@@ -1,0 +1,19 @@
+{
+  "name": "@alloy-city/comment-pantoufle",
+  "version": "1.0.0",
+  "description": "Comments on Pantoufle Français lessons",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alloy-city/comment-pantoufle.git"
+  },
+  "author": "Pedro SOUSA",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alloy-city/comment-pantoufle/issues"
+  },
+  "homepage": "https://github.com/alloy-city/comment-pantoufle#readme"
+}
