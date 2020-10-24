@@ -1,6 +1,6 @@
 {
   "name": "@alloy-city/comment-pantoufle",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Comments on Pantoufle Français lessons",
   "main": "index.js",
   "scripts": {
