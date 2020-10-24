@@ -1,7 +1,7 @@
-import { waiting, doneWaiting, addEmoticonButtons } from './index';
-import { postComment } from '../http/http';
+import { waiting, doneWaiting, addEmoticonButtons } from '@alloy-city/comment-pantoufle/UI';
+import { postComment } from '@alloy-city/comment-pantoufle/http/http';
 
-function Editor(lessonId, parent, level, rootElement, openButton) {
+function childEditor(lessonId, parent, level, rootElement, openButton) {
     let editor = document.createElement("div");
     let title = document.createElement("p");
     let textBox = document.createElement("textarea");
@@ -54,6 +54,8 @@ function Editor(lessonId, parent, level, rootElement, openButton) {
     openButton.setAttribute("style", "display:none");
 
     rootElement.appendChild(editor);
+
+    return editor;
 }
 
-export { Editor }
+export { childEditor }

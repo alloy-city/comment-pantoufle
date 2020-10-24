@@ -1,10 +1,19 @@
-import { Editor } from './editor';
+import { childEditor } from './childEditor';
+import { rootEditor } from './rootEditor';
 import { waiting, doneWaiting } from './waiting';
 import { addEmoticonButtons } from './emoticons';
+import { button } from './button';
+import { addComment } from './comment';
+import { initializeRootComments, updateRootComments } from './addRootComments';
 
 export {
-    Editor,
+    childEditor,
+    rootEditor,
     waiting,
     doneWaiting,
-    addEmoticonButtons
+    addEmoticonButtons,
+    button,
+    addComment,
+    initializeRootComments,
+    updateRootComments
 }

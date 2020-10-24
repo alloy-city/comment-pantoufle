@@ -4,11 +4,13 @@ class Comment {
         lesson = "",
         timestamp = new Date(),
         body = "",
+        nOfChildren = 0
     ) {
         this.level = level;
         this.lesson = lesson;
         this.timestamp = timestamp;
         this.body = body;
+        this.nOfChildren = nOfChildren;
     }
 
     setAuthor(author) {

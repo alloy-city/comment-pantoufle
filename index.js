@@ -1,11 +1,37 @@
-import Comment from './comment';
+import {
+    rootEditor,
+    childEditor,
+    waiting,
+    doneWaiting,
+    addEmoticonButtons,
+    button,
+    addComment,
+    initializeRootComments,
+    updateRootComments
+} from './UI';
+import { Author, Comment } from './types';
+import { postComment, fetchComments } from './http/http';
+import { stateMachine } from './stateMachine';
 
-let c = new Comment(0, "me", new Date(), "Hello, world!");
+let root;
+let re;
+let lessonId;
 
-r.addChild(c);
+function assembleCommentTree (lessonId, commentTreeContainer) {
+    commentTreeContainer.innerHTML = "";
+    stateMachine.clear();
 
-function assembleCommentTree (lessonId) {
-    console.log("The Comment Submodule", lessonId, c.getBody());
+    root = commentTreeContainer;
+    lessonId = lessonId;
+
+    re = rootEditor(lessonId, root);
+
+    fetchComments(lessonId, 0, 0, (nOfCommentsFetched) => {
+        if (nOfCommentsFetched > 0) {
+            console.log(`${nOfCommentsFetched} comments fetched.`);
+            initializeRootComments(root);
+        }
+    })
 }
 
 export { assembleCommentTree };
