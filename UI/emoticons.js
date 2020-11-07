@@ -42,7 +42,7 @@ function addEmoticonButtons(root, textBox) {
         icon.setAttribute("style", "cursor: pointer");
         icon.innerText = emoticons[i];
         icon.onclick = () => {
-            textBox.value += `${emoticons[i]}`;
+            textBox.setRangeText(emoticons[i]);
         }
 
         container.appendChild(icon);
