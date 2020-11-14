@@ -17,8 +17,6 @@ function http(method, body, route, callback) {
     }
 
     fetch(`${apiDomain}/api/${route}`, init).then(response => {
-        // console.log(response.status)
-
         if (response.status == 304) {
             callback(304)
         }
@@ -26,15 +24,41 @@ function http(method, body, route, callback) {
             callback(0)
         }
         if (response.status == 200) {
-            response.json().then(callback)
+            response.json().then((parsedResponse) => {
+                if (parsedResponse.status === "COMMENT_SAVED") {
+                    let c = new Comment(
+                        parsedResponse.comment._id,
+                        parsedResponse.comment.level,
+                        parsedResponse.comment.lesson,
+                        parsedResponse.comment.timestamp,
+                        parsedResponse.comment.text,
+                        parsedResponse.comment.nOfChildren
+                    )
+
+                    let a = new Author(
+                        Auth.userData._id,
+                        Auth.userData.picture ? Auth.userData.picture : "/images/noPicture.png",
+                        Auth.userData.nickname ? Auth.userData.nickname : Auth.userData._id,
+                    )
+
+                    c.setAuthor(a);
+
+                    stateMachine.pushNewComment(c);
+                    callback(parsedResponse.comment._id);
+                } else if (parsedResponse.status === "OK" && parsedResponse.msg === "COMMENT_DELETED") {
+                    stateMachine.removeComment(parsedResponse.comment_id);
+                    callback();
+                } else {
+                    callback(parsedResponse);
+                }
+            })
         } else {
             response.json().then(err => {
-                // console.log(err)
                 notify(err, "warning", true)
             })
         }
     }).catch(reason => {
-        // console.log(reason)
+        notify(reason, "warning", true)
     })
 }
 
@@ -44,6 +68,10 @@ function get(route, callback) {
 
 function post(body, route, callback) {
     http("POST", body, route, callback)
+}
+
+function remove(route, callback) {
+    http("DELETE", null, route, callback)
 }
 
 function postComment(lessonId, parent, level, text, callback) {
@@ -84,6 +112,7 @@ function fetchComments(lesson_id, level, page, callback) {
 
             if (!(res.comments[i]._id in stateMachine.comments)) {
                 let c = new Comment(
+                    res.comments[i]._id,
                     level,
                     lesson_id,
                     res.comments[i].timestamp,
@@ -101,4 +130,9 @@ function fetchComments(lesson_id, level, page, callback) {
     });
 }
 
-export { postComment, postRootComment, fetchComments }
+function removeComment(comment, callback) {
+    console.log(comment._id, callback);
+    remove(`comment/${comment._id}`, callback);
+}
+
+export { postComment, postRootComment, fetchComments, removeComment }

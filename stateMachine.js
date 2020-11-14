@@ -23,6 +23,22 @@ class StateMachine {
     addAuthor(author) {
         this.authors[author._id] = author;
     }
+
+    pushNewComment(comment) {
+        this.comments[comment._id] = comment;
+        this.orderedRootComments.unshift(comment);
+    }
+
+    removeComment(comment_id) {
+        delete this.comments[comment_id];
+        
+        for (let i=0; i<this.orderedRootComments.length; i++) {
+            if (this.orderedRootComments[i]._id == comment_id) {
+                this.orderedRootComments.splice(i, 1);
+                break;
+            }
+        }
+    }
 }
 
 let stateMachine = new StateMachine();

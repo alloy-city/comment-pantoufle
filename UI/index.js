@@ -4,7 +4,7 @@ import { waiting, doneWaiting } from './waiting';
 import { addEmoticonButtons } from './emoticons';
 import { button } from './button';
 import { addComment } from './comment';
-import { initializeRootComments, updateRootComments } from './addRootComments';
+import { initializeRootComments, updateRootComments, addJustWrittenComment } from './addRootComments';
 
 export {
     childEditor,
@@ -15,5 +15,6 @@ export {
     button,
     addComment,
     initializeRootComments,
-    updateRootComments
+    updateRootComments,
+    addJustWrittenComment
 }

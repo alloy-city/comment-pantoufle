@@ -1,11 +1,13 @@
 class Comment {
     constructor(
+        _id,
         level = 0,
-        lesson = "",
+        lesson,
         timestamp = new Date(),
         body = "",
         nOfChildren = 0
     ) {
+        this._id = _id;
         this.level = level;
         this.lesson = lesson;
         this.timestamp = timestamp;

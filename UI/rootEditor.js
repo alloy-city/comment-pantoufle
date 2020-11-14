@@ -1,4 +1,4 @@
-import { waiting, doneWaiting, addEmoticonButtons } from '@alloy-city/comment-pantoufle/UI';
+import { waiting, doneWaiting, addEmoticonButtons, addJustWrittenComment } from '@alloy-city/comment-pantoufle/UI';
 import { postRootComment } from '@alloy-city/comment-pantoufle/http/http';
 
 function rootEditor(lessonId, rootElement) {
@@ -36,7 +36,9 @@ function rootEditor(lessonId, rootElement) {
         if (textBox.value.length == 0) return;
 
         waiting(editor);
-        postRootComment(lessonId, textBox.value, () => {
+        postRootComment(lessonId, textBox.value, (comment_id) => {
+            addJustWrittenComment(comment_id);
+            textBox.value = "";
             doneWaiting(editor);
         });
     }
