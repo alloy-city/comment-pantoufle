@@ -84,7 +84,9 @@ function formatComment(comment) {
     actionsContainer.appendChild(bulletActionSeparatorElement);
 
     let commentActionElement = document.createElement("span");
-    commentActionElement.setAttribute("style", "cursor: pointer; font-weight: bold; color: #2e92cc;");
+    // TODO: swich when child comment functionality is ready
+    // commentActionElement.setAttribute("style", "cursor: pointer; font-weight: bold; color: #2e92cc;");
+    commentActionElement.setAttribute("style", "display: none; cursor: pointer; font-weight: bold; color: #2e92cc;");
     commentActionElement.innerText = string.buttons.comment;
     actionsContainer.appendChild(commentActionElement);
 
