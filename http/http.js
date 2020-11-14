@@ -100,12 +100,12 @@ function fetchComments(lesson_id, level, page, callback) {
     get(`comment?lesson_id=${lesson_id}&level=${level}&page=${page}`, (res) => {
         for (let i=0; i<res.comments.length; i++) {
             if (!(res.comments[i].author._id in stateMachine.authors)) {
-                let authorDisplayName = res.comments[i].author.mainEmail;
+                let authorDisplayName = res.comments[i].author._id;
                 if (res.comments[i].author.nickname.length > 0) authorDisplayName = res.comments[i].author.nickname;
 
                 stateMachine.addAuthor(new Author(
                     res.comments[i].author._id,
-                    res.comments[i].author.picture,
+                    res.comments[i].author.picture && res.comments[i].author.picture.length > 0 ? res.comments[i].author.picture : "/images/noPicture.png",
                     authorDisplayName
                 ));
             }
