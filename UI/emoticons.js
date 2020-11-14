@@ -22,7 +22,6 @@ const emoticons = [
     "😱",
     "😠",
     "👽",
-    "❤",
     "🤘",
     "✌",
     "🤙",
@@ -43,6 +42,8 @@ function addEmoticonButtons(root, textBox) {
         icon.innerText = emoticons[i];
         icon.onclick = () => {
             textBox.setRangeText(emoticons[i]);
+            textBox.focus();
+            textBox.selectionStart = textBox.selectionEnd += 2;
         }
 
         container.appendChild(icon);
