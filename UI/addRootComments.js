@@ -1,5 +1,5 @@
 import { stateMachine } from '../stateMachine';
-import { formatComment } from './formatComment';
+import { appendComment, prependComment } from './formatComment';
 
 let rootCommentsContainerElement = document.createElement("div");
 
@@ -11,8 +11,12 @@ function initializeRootComments(root) {
 
 function updateRootComments () {
     for (let i=0; i<stateMachine.orderedRootComments.length; i++) {
-        formatComment(rootCommentsContainerElement, stateMachine.orderedRootComments[i]);
+        appendComment(rootCommentsContainerElement, stateMachine.orderedRootComments[i]);
     }
 }
 
-export { initializeRootComments, updateRootComments }
+function addJustWrittenComment(comment_id) {
+    prependComment(rootCommentsContainerElement, stateMachine.comments[comment_id]);
+}
+
+export { initializeRootComments, updateRootComments, addJustWrittenComment }

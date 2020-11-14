@@ -1,9 +1,17 @@
-function formatComment(parent, comment) {
-    console.log(parent);
-    console.log(comment);
+import { removeComment } from '../http/http';
 
+function appendComment(parent, comment) {
+    parent.appendChild(formatComment(comment));
+}
+
+function prependComment(parent, comment) {
+    parent.prepend(formatComment(comment));
+}
+
+function formatComment(comment) {
     let root = document.createElement("div");
-    root.setAttribute("style", "display: flex")
+    root.setAttribute("style", "display: flex");
+    root.setAttribute("id", comment._id);
 
     let left = document.createElement("div");
     left.setAttribute("style", "display: flex; flex-direction: column;")
@@ -89,4 +97,4 @@ function formatComment(parent, comment) {
     return root;
 }
 
-export { formatComment }
+export { appendComment, prependComment, formatComment }
