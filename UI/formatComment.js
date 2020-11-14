@@ -80,7 +80,13 @@ function formatComment(parent, comment) {
     commentActionElement.innerText = string.buttons.comment;
     actionsContainer.appendChild(commentActionElement);
 
-    parent.appendChild(root)
+    removeActionElement.onclick = () => {
+        removeComment(comment, () => {
+            root.remove();
+        });
+    }
+
+    return root;
 }
 
 export { formatComment }
