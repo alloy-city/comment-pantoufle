@@ -1,3 +1,4 @@
+import { Author } from '@alloy-city/comment-pantoufle/types';
 import { removeComment } from '../http/http';
 
 function appendComment(parent, comment) {
@@ -79,14 +80,23 @@ function formatComment(comment) {
 
     // actions
     let removeActionElement = document.createElement("span");
-    removeActionElement.setAttribute("style", "cursor: pointer; margin-left: 10px; font-weight: bold; color: #e94256;");
-    removeActionElement.innerText = string.buttons.remove;
-    actionsContainer.appendChild(removeActionElement);
+    if (comment.author._id === Auth.userData._id) {
+        removeActionElement.setAttribute("style", "cursor: pointer; margin-left: 10px; font-weight: bold; color: #e94256;");
+        removeActionElement.innerText = string.buttons.remove;
+        actionsContainer.appendChild(removeActionElement);
 
-    let bulletActionSeparatorElement = document.createElement("span");
-    bulletActionSeparatorElement.setAttribute("style", "margin-left: 10px; color: #6a6965;");
-    bulletActionSeparatorElement.innerHTML = "&#9679;";
-    actionsContainer.appendChild(bulletActionSeparatorElement);
+        removeActionElement.onclick = () => {
+            removeComment(comment, () => {
+                root.remove();
+            });
+        }
+    }
+
+    // TODO: add boolet separator only if there's two actions
+    // let bulletActionSeparatorElement = document.createElement("span");
+    // bulletActionSeparatorElement.setAttribute("style", "margin-left: 10px; color: #6a6965;");
+    // bulletActionSeparatorElement.innerHTML = "&#9679;";
+    // actionsContainer.appendChild(bulletActionSeparatorElement);
 
     let commentActionElement = document.createElement("span");
     // TODO: swich when child comment functionality is ready
@@ -94,12 +104,6 @@ function formatComment(comment) {
     commentActionElement.setAttribute("style", "display: none; cursor: pointer; font-weight: bold; color: #2e92cc;");
     commentActionElement.innerText = string.buttons.comment;
     actionsContainer.appendChild(commentActionElement);
-
-    removeActionElement.onclick = () => {
-        removeComment(comment, () => {
-            root.remove();
-        });
-    }
 
     return root;
 }
