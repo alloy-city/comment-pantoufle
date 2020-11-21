@@ -101,7 +101,7 @@ function fetchComments(lesson_id, level, page, callback) {
         for (let i=0; i<res.comments.length; i++) {
             if (!(res.comments[i].author._id in stateMachine.authors)) {
                 let authorDisplayName = res.comments[i].author._id;
-                if (res.comments[i].author.nickname.length > 0) authorDisplayName = res.comments[i].author.nickname;
+                if (res.comments[i].author.nickname && res.comments[i].author.nickname.length > 0) authorDisplayName = res.comments[i].author.nickname;
 
                 stateMachine.addAuthor(new Author(
                     res.comments[i].author._id,
