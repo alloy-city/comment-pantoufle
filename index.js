@@ -27,10 +27,7 @@ function assembleCommentTree (lessonId, commentTreeContainer) {
     re = rootEditor(lessonId, root);
 
     fetchComments(lessonId, 0, 0, (nOfCommentsFetched) => {
-        // if (nOfCommentsFetched > 0) {
-            console.log(`${nOfCommentsFetched} comments fetched.`);
-            initializeRootComments(root);
-        // }
+        initializeRootComments(root);
     })
 }
 

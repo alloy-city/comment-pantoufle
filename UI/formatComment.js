@@ -54,7 +54,12 @@ function formatComment(comment) {
     bodyContainer.appendChild(textElement);
 
     let authorElement = document.createElement("span");
-    authorElement.innerText = comment.author.displayName;
+    if (comment.author.displayName.length > 0) {
+        authorElement.innerText = comment.author.displayName;
+    } else {
+        authorElement.innerText = comment.author._id;
+        authorElement.setAttribute("title", string.material.comments.setYourDisplayName);
+    }
     infoContainer.appendChild(authorElement);
 
     let bulletSeparatorElement = document.createElement("span");
