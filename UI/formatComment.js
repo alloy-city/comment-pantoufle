@@ -87,7 +87,14 @@ function formatComment(comment) {
 
         removeActionElement.onclick = () => {
             removeComment(comment, () => {
-                root.remove();
+                if (comment.nOfChildren > 0) {
+                    textElement.innerText = string.material.comments.removedByAuthor;
+                    textElement.setAttribute("style", "color: #7a7a7a; font-style: italic;");
+                    bodyContainer.setAttribute("style", "background: #fffdef; padding: 10px;");
+                    removeActionElement.remove();
+                } else {
+                    root.remove();
+                }
             });
         }
     }
