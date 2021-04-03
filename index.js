@@ -1,21 +1,12 @@
 import {
     rootEditor,
-    childEditor,
-    waiting,
-    doneWaiting,
-    addEmoticonButtons,
-    button,
-    addComment,
     initializeRootComments,
-    updateRootComments
 } from './UI';
-import { Author, Comment } from './types';
-import { postComment, fetchComments } from './http/http';
+import { fetchComments } from './http/http';
 import { stateMachine } from './stateMachine';
 
 let root;
 let re;
-let lessonId;
 
 function assembleCommentTree (lessonId, commentTreeContainer) {
     commentTreeContainer.innerHTML = "";

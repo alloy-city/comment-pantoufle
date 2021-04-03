@@ -1,7 +1,7 @@
-import { waiting, doneWaiting, addEmoticonButtons } from '@alloy-city/comment-pantoufle/UI';
+import { waiting, addEmoticonButtons, addChildComment } from '@alloy-city/comment-pantoufle/UI';
 import { postComment } from '@alloy-city/comment-pantoufle/http/http';
 
-function childEditor(lessonId, parent, level, rootElement, openButton) {
+function childEditor(lessonId, parent, level, root) {
     let editor = document.createElement("div");
     let title = document.createElement("p");
     let textBox = document.createElement("textarea");
@@ -31,7 +31,7 @@ function childEditor(lessonId, parent, level, rootElement, openButton) {
     textBox.setAttribute("placeholder", string.material.comments.writePublicComment);
     textBox.setAttribute("style", "background-color: #c9e1cf;color: #4e4e4e;");
 
-    editor.setAttribute("style", "background-color: #76bf89; border-radius: 10px; padding: 10px; box-shadow: 3px 3px 6px #6b6b6b94;");
+    editor.setAttribute("style", "background-color: #76bf89; border-radius: 10px; padding: 10px; box-shadow: 3px 3px 6px #6b6b6b94; margin-bottom: 20px");
 
     editor.appendChild(title);
     editor.appendChild(textBox);
@@ -41,19 +41,18 @@ function childEditor(lessonId, parent, level, rootElement, openButton) {
         if (textBox.value.length == 0) return;
 
         waiting(editor);
-        postComment(lessonId, parent, level, textBox.value, () => {
-            doneWaiting(editor);
+        postComment(lessonId, parent, level, textBox.value, (response) => {
+            addChildComment(parent, response)
+            editor.remove();
         });
     }
 
     cancelButton.onclick = () => {
-        openButton.setAttribute("style", "display:inline-block");
         editor.remove();
     }
 
-    openButton.setAttribute("style", "display:none");
-
-    rootElement.appendChild(editor);
+    root.appendChild(editor);
+    textBox.focus();
 
     return editor;
 }

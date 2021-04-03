@@ -1,5 +1,5 @@
-import { stateMachine } from '../stateMachine';
-import { appendComment, prependComment } from './formatComment';
+import { stateMachine } from '@alloy-city/comment-pantoufle/stateMachine';
+import { appendComment, prependComment, insertChildComment } from '@alloy-city/comment-pantoufle/UI/formatComment';
 
 let rootCommentsContainerElement = document.createElement("div");
 
@@ -19,4 +19,9 @@ function addJustWrittenComment(comment_id) {
     prependComment(rootCommentsContainerElement, stateMachine.comments[comment_id]);
 }
 
-export { initializeRootComments, updateRootComments, addJustWrittenComment }
+function addChildComment(parent_comment, comment_id) {
+    stateMachine.comments[parent_comment].nOfChildren++;
+    insertChildComment(document.getElementById(parent_comment), stateMachine.comments[comment_id]);
+}
+
+export { initializeRootComments, updateRootComments, addJustWrittenComment, addChildComment }

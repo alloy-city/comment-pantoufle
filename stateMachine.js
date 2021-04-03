@@ -17,7 +17,12 @@ class StateMachine {
 
     addComment(comment) {
         this.comments[comment._id] = comment;
-        this.orderedRootComments.push(comment);
+
+        if (comment.parent) {
+            this.comments[comment.parent].addChild(comment);
+        } else {
+            this.orderedRootComments.push(comment);
+        }
     }
 
     addAuthor(author) {

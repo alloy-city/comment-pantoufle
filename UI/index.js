@@ -4,7 +4,7 @@ import { waiting, doneWaiting } from './waiting';
 import { addEmoticonButtons } from './emoticons';
 import { button } from './button';
 import { addComment } from './comment';
-import { initializeRootComments, updateRootComments, addJustWrittenComment } from './addRootComments';
+import { initializeRootComments, updateRootComments, addJustWrittenComment, addChildComment } from '@alloy-city/comment-pantoufle/UI/addComment';
 
 export {
     childEditor,
@@ -16,5 +16,6 @@ export {
     addComment,
     initializeRootComments,
     updateRootComments,
-    addJustWrittenComment
+    addJustWrittenComment,
+    addChildComment
 }

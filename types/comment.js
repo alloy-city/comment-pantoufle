@@ -5,7 +5,8 @@ class Comment {
         lesson,
         timestamp = new Date(),
         body = "",
-        nOfChildren = 0
+        nOfChildren = 0,
+        visible
     ) {
         this._id = _id;
         this.level = level;
@@ -13,6 +14,8 @@ class Comment {
         this.timestamp = timestamp;
         this.body = body;
         this.nOfChildren = nOfChildren;
+        this.visible = visible;
+        this.children = [];
     }
 
     setAuthor(author) {

@@ -1,6 +1,12 @@
 import { Comment, Author } from '../types';
 import { stateMachine } from '../stateMachine';
 
+let user = new Author(
+    Auth.userData._id,
+    Auth.userData.picture ? Auth.userData.picture : "/images/noPicture.png",
+    Auth.userData.nickname ? Auth.userData.nickname : Auth.userData._id,
+)
+
 function http(method, body, route, callback) {
     let headers = new Headers({
         "Content-Type": "application/json",
@@ -23,6 +29,9 @@ function http(method, body, route, callback) {
         if (response.status == 204) {
             callback(0)
         }
+        if (response.status == 400) {
+            console.log(response);
+        }
         if (response.status == 200) {
             response.json().then((parsedResponse) => {
                 if (parsedResponse.status === "COMMENT_SAVED") {
@@ -32,16 +41,11 @@ function http(method, body, route, callback) {
                         parsedResponse.comment.lesson,
                         parsedResponse.comment.timestamp,
                         parsedResponse.comment.text,
-                        parsedResponse.comment.nOfChildren
+                        parsedResponse.comment.nOfChildren,
+                        true
                     )
 
-                    let a = new Author(
-                        Auth.userData._id,
-                        Auth.userData.picture ? Auth.userData.picture : "/images/noPicture.png",
-                        Auth.userData.nickname ? Auth.userData.nickname : Auth.userData._id,
-                    )
-
-                    c.setAuthor(a);
+                    c.setAuthor(user);
 
                     stateMachine.pushNewComment(c);
                     callback(parsedResponse.comment._id);
@@ -96,40 +100,56 @@ function postRootComment(lessonId, text, callback) {
     post(body, "comment/", callback);
 }
 
-function fetchComments(lesson_id, level, page, callback) {
-    get(`comment?lesson_id=${lesson_id}&level=${level}&page=${page}`, (res) => {
-        for (let i=0; i<res.comments.length; i++) {
-            if (!(res.comments[i].author._id in stateMachine.authors)) {
-                stateMachine.addAuthor(new Author(
-                    res.comments[i].author._id,
-                    res.comments[i].author.picture && res.comments[i].author.picture.length > 0 ? res.comments[i].author.picture : "/images/noPicture.png",
-                    res.comments[i].author.nickname || "",
-                ));
-            }
-
-            if (!(res.comments[i]._id in stateMachine.comments)) {
-                let c = new Comment(
-                    res.comments[i]._id,
-                    level,
-                    lesson_id,
-                    res.comments[i].timestamp,
-                    res.comments[i].text,
-                    res.comments[i].nOfChildren
-                )
-
-                c.setAuthor(stateMachine.authors[res.comments[i].author._id]);
-
-                stateMachine.addComment(c);
-            }
+function instanciateComments(lesson_id, level, comments) {
+    for (let i=0; i<comments.length; i++) {
+        if (!(comments[i].author._id in stateMachine.authors)) {
+            stateMachine.addAuthor(new Author(
+                comments[i].author._id,
+                comments[i].author.picture && comments[i].author.picture.length > 0 ? comments[i].author.picture : "/images/person_blue_bg_64p.png",
+                comments[i].author.nickname || "",
+            ));
         }
 
+        if (!(comments[i]._id in stateMachine.comments)) {
+            let c = new Comment(
+                comments[i]._id,
+                level,
+                lesson_id,
+                comments[i].timestamp,
+                comments[i].text,
+                comments[i].nOfChildren,
+                comments[i].visible
+            )
+
+            if (c.level > 0) {
+                c.setParent(comments[i].parent)
+            }
+
+            c.setAuthor(stateMachine.authors[comments[i].author._id]);
+
+            stateMachine.addComment(c);
+        }
+    }
+}
+
+function fetchComments(lesson_id, level, page, callback) {
+    get(`comment?lesson_id=${lesson_id}&level=${level}&page=${page}`, (res) => {
+        console.log(res.comments.length);
+
+        instanciateComments(lesson_id, level, res.comments);
+        callback(res.comments.length);
+    });
+}
+
+function fetchReplies(lesson_id, parent, page, callback) {
+    get(`comment/replies?parent=${parent}&page=${page}`, (res) => {
+        instanciateComments(lesson_id, 1, res.comments);
         callback(res.comments.length);
     });
 }
 
 function removeComment(comment, callback) {
-    console.log(comment._id, callback);
     remove(`comment/${comment._id}`, callback);
 }
 
-export { postComment, postRootComment, fetchComments, removeComment }
+export { postComment, postRootComment, fetchComments, removeComment, fetchReplies }
