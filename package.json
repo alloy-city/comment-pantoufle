@@ -1,6 +1,6 @@
 {
   "name": "@alloy-city/comment-pantoufle",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "Comments on Pantoufle Français lessons",
   "main": "index.js",
   "scripts": {
@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/alloy-city/comment-pantoufle/issues"
   },
-  "homepage": "https://github.com/alloy-city/comment-pantoufle#readme"
+  "homepage": "https://github.com/alloy-city/comment-pantoufle#readme",
+  "dependencies": {
+    "moment": "2.29.4"
+  }
 }

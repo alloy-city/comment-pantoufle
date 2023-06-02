@@ -1,7 +1,7 @@
 import { waiting, addEmoticonButtons, addChildComment } from '@alloy-city/comment-pantoufle/UI';
 import { postComment } from '@alloy-city/comment-pantoufle/http/http';
 
-function childEditor(lessonId, parent, level, root) {
+function childEditor(lessonId, parent, level, root, noState) {
     let editor = document.createElement("div");
     let title = document.createElement("p");
     let textBox = document.createElement("textarea");
@@ -42,7 +42,7 @@ function childEditor(lessonId, parent, level, root) {
 
         waiting(editor);
         postComment(lessonId, parent, level, textBox.value, (response) => {
-            addChildComment(parent, response)
+            if (!noState) addChildComment(parent, response)
             editor.remove();
         });
     }

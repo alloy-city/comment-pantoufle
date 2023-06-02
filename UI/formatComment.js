@@ -1,6 +1,7 @@
 import { stateMachine } from '@alloy-city/comment-pantoufle/stateMachine';
 import { removeComment, fetchReplies } from '../http/http';
 import { childEditor } from './childEditor';
+import moment from 'moment';
 
 function appendComment(parent, comment) {
     parent.appendChild(formatComment(comment));

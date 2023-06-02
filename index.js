@@ -1,6 +1,7 @@
 import {
     rootEditor,
     initializeRootComments,
+    childEditor
 } from './UI';
 import { fetchComments } from './http/http';
 import { stateMachine } from './stateMachine';
@@ -22,4 +23,4 @@ function assembleCommentTree (lessonId, commentTreeContainer) {
     })
 }
 
-export { assembleCommentTree };
+export { assembleCommentTree, childEditor };
